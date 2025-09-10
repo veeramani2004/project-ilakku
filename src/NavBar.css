@@ -1,0 +1,16 @@
+.nav-bar {
+  position: sticky, absolute;
+  padding-bottom: 65px;
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  img {
+    height: 50px;
+    width: auto;
+    background-color: aliceblue;
+    border-radius: 50%;
+  }
+}

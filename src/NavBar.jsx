@@ -3,6 +3,7 @@ import logo from "./assets/logo.png";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
+import "./NavBar.css";
 
 function NavBar() {
   const navigate = useNavigate();

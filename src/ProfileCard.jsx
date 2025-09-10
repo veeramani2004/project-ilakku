@@ -1,3 +1,5 @@
+import "./ProfileCard.css";
+
 export function ProfileCard() {
   return (
     <div className="profile-card">
@@ -11,22 +13,15 @@ export function ProfileCard() {
           alt="profile"
           className="profile-avatar"
         />
-        <h3>VV TEXTILES</h3>
-        <p className="role">sarees manufacturer</p>
+        <h3>JOEDHIKA</h3>
+        <p className="role">Python developer</p>
         <p className="location">Salem, Tamil Nadu</p>
       </div>
 
       {/* Connections */}
       <div className="connections">
-        <p>Connections</p>
+        <p>Followers</p>
         <span>6</span>
-        <small>Connect with alumni</small>
-      </div>
-
-      {/* Premium */}
-      <div className="premium">
-        <p>Access exclusive tools & insights</p>
-        <strong>Try Premium for ₹0</strong>
       </div>
 
       {/* Links */}
