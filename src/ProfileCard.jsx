@@ -13,7 +13,7 @@ export function ProfileCard() {
           alt="profile"
           className="profile-avatar"
         />
-        <h3>JOEDHIKA</h3>
+        <h3>Jyothika</h3>
         <p className="role">Python developer</p>
         <p className="location">Salem, Tamil Nadu</p>
       </div>

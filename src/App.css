@@ -9,50 +9,93 @@
 }
 
 /* ------------------------ EDITE POST -------------------------- */
-.edit-box {
+/* ---------- Edit Post Box ---------- */
+.edit-post-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f9fafb;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
   margin-top: 10px;
 }
 
+/* Textarea */
 .edit-textarea {
   width: 100%;
-  min-height: 70px;
-  padding: 8px;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
+  min-height: 80px;
+  padding: 10px;
   font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   resize: vertical;
   outline: none;
+  transition: border 0.2s;
 }
 
+.edit-textarea:focus {
+  border-color: #3b82f6; /* blue focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Toolbar */
+.edit-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.edit-toolbar button {
+  border: none;
+  background: #fff;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.edit-toolbar button:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* Save & Cancel Buttons */
 .edit-actions {
   display: flex;
   gap: 10px;
-  margin-top: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s;
 }
 
 .save-btn {
-  background-color: #0a66c2;
+  background: #3b82f6;
   color: white;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.cancel-btn {
-  background-color: transparent;
-  color: #555;
-  border: 1px solid #ccc;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
 }
 
 .save-btn:hover {
-  background-color: #004182;
+  background: #2563eb;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+  color: #111827;
 }
 
 .cancel-btn:hover {
-  background-color: #f3f3f3;
+  background: #d1d5db;
 }

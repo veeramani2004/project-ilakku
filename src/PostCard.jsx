@@ -1,11 +1,16 @@
-import { formatDistanceToNow } from "date-fns";
 import { useEffect, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import "./PostCard.css";
-
 const ITEM_HEIGHT = 48;
 
 export function PostCard({ post, onDelete, onEdit }) {
@@ -14,6 +19,14 @@ export function PostCard({ post, onDelete, onEdit }) {
   );
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(post.postText);
+  const [editImage, setEditImage] = useState(post.postImage || "");
+
+  useEffect(() => {
+    if (isEditing) {
+      setEditText(post.postText);
+      setEditImage(post.postImage || "");
+    }
+  }, [isEditing, post]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,8 +38,8 @@ export function PostCard({ post, onDelete, onEdit }) {
   }, [post.postTime]);
 
   const handleEditSave = () => {
-    if (!editText.trim()) return;
-    onEdit(post.id, { ...post, postText: editText });
+    if (!editText.trim() && !editImage.trim()) return;
+    onEdit(post.id, { ...post, postText: editText, postImage: editImage });
     setIsEditing(false);
   };
 
@@ -43,38 +56,15 @@ export function PostCard({ post, onDelete, onEdit }) {
         <LongMenu
           postId={post.id}
           onDelete={onDelete}
-          onEdit={() => setIsEditing(true)}
+          onEdit={() => setIsEditing(true)} // 🔥 Open popup
         />
       </div>
 
       {/* Body */}
       <div className="post-body">
-        {isEditing ? (
-          <div className="edit-box">
-            <textarea
-              className="edit-textarea"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-            />
-            <div className="edit-actions">
-              <button className="save-btn" onClick={handleEditSave}>
-                Save
-              </button>
-              <button
-                className="cancel-btn"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <p className="post-text">{post.postText}</p>
-            {post.postImage && (
-              <img src={post.postImage} alt="post" className="post-image" />
-            )}
-          </>
+        <p className="post-text">{post.postText}</p>
+        {post.postImage && (
+          <img src={post.postImage} alt="post" className="post-image" />
         )}
       </div>
 
@@ -83,6 +73,42 @@ export function PostCard({ post, onDelete, onEdit }) {
         <button className="footer-btn">👍 Like</button>
         <button className="footer-btn">💬 {post.commentSectionName}</button>
       </div>
+
+      {/* 🔥 Edit Popup */}
+      <Dialog open={isEditing} onClose={() => setIsEditing(false)} fullWidth>
+        <DialogTitle>Edit Post</DialogTitle>
+        <DialogContent>
+          <TextField
+            multiline
+            fullWidth
+            minRows={3}
+            label="Edit Text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            margin="dense"
+          />
+          <TextField
+            fullWidth
+            label="Image URL"
+            value={editImage}
+            onChange={(e) => setEditImage(e.target.value)}
+            margin="dense"
+          />
+          {editImage && (
+            <img
+              src={editImage}
+              alt="preview"
+              style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+          <Button onClick={handleEditSave} variant="contained">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
@@ -111,42 +137,25 @@ function LongMenu({ postId, onDelete, onEdit }) {
     }
   };
   const handleEdit = () => {
-    onEdit(); // ✅ Call parent onEdit
     handleClose();
+    onEdit();
   };
-
   return (
-    <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? "long-menu" : undefined}
-        aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
+    <>
+      <IconButton onClick={handleClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
-        id="long-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         slotProps={{
-          paper: {
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: "20ch",
-            },
-          },
-          list: {
-            "aria-labelledby": "long-button",
-          },
+          paper: { style: { maxHeight: ITEM_HEIGHT * 4.5, width: "20ch" } },
         }}
       >
         <MenuItem onClick={handleDelete}>🗑️ Delete</MenuItem>
         <MenuItem onClick={handleEdit}>✏️ Edit</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }
