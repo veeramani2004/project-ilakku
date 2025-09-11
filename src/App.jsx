@@ -3,6 +3,8 @@ import "./App.css";
 import { Home } from "./Home";
 import { NavBar } from "./NavBar";
 import { PostList } from "./PostList";
+import { SignUpForm } from "./SignUpForm";
+import { LoginForm } from "./LoginForm";
 
 export default function App() {
   return (
@@ -10,9 +12,9 @@ export default function App() {
       <NavBar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-
-        <Route path="/posts" element={<PostList />} />
+        <Route path="/" element={<PostList />} />
+        <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
     </div>
   );
