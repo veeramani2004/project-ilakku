@@ -16,14 +16,10 @@ function NavBar() {
             <Button color="inherit" onClick={() => navigate("/")}>
               Home
             </Button>
-            <Button color="inherit" onClick={() => navigate("/posts")}>
-              Post
+            <Button color="inherit" onClick={() => navigate("/signup")}>
+              Signup
             </Button>
-
-            <Button color="inherit" onClick={() => navigate()}>
-              About
-            </Button>
-            <Button color="inherit" onClick={() => navigate()}>
+            <Button color="inherit" onClick={() => navigate("/login")}>
               Login
             </Button>
           </div>
