@@ -1,94 +1,95 @@
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { object, string } from "yup";
-import "./LoginForm.css";
-import {
-  TextField,
-  Button,
-  Avatar,
-  Typography,
-  Box,
-  Paper,
-} from "@mui/material";
+import { useEffect } from "react";
 import "./LoginForm.css";
 
-// Validation schema
 const loginSchema = object({
-  email: string().required("Email is required").email("Enter a valid email"),
+  username: string().required("Username is required 😉"),
   password: string()
-    .required("Password is required")
-    .min(8, "At least 8 characters"),
+    .required("Password is required 😉")
+    .min(8, "Please provide a longer password 😁"),
 });
 
 export function LoginForm() {
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      validationSchema: loginSchema,
-      onSubmit: (user) => {
-        console.log("Login Data:", user);
-        // 🔥 Here you’ll call API for login
-      },
-    });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    resetForm,
+  } = useFormik({
+    initialValues: { username: "", password: "" },
+    validationSchema: loginSchema,
+    onSubmit: async (user) => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error("Login failed");
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem("token", data?.token);
+        localStorage.setItem("role", data?.role);
+        localStorage.setItem("username", data?.username);
+
+        navigate("/");
+        resetForm();
+      } catch (err) {
+        console.error("❌ Error logging in:", err.message);
+      }
+    },
+  });
 
   return (
-    <div className="login-container">
-      <Paper elevation={3} className="login-card">
-        <Box className="login-header">
-          <Avatar src="/images/default-avatar.png" className="login-avatar" />
-          <Typography variant="h5" gutterBottom>
-            Welcome Back
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Please log in to continue
-          </Typography>
-        </Box>
+    <form onSubmit={handleSubmit} className="login-form">
+      {/* Username */}
+      <label htmlFor="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        placeholder="Enter your username"
+        name="username"
+        value={values.username}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={touched.username && errors.username ? "input-error" : ""}
+      />
+      {touched.username && errors.username && (
+        <p className="error">{errors.username}</p>
+      )}
 
-        <form onSubmit={handleSubmit} className="login-form">
-          {/* Email */}
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            margin="normal"
-            error={touched.email && Boolean(errors.email)}
-            helperText={touched.email && errors.email}
-          />
+      {/* Password */}
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter your password"
+        name="password"
+        value={values.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={touched.password && errors.password ? "input-error" : ""}
+      />
+      {touched.password && errors.password && (
+        <p className="error">{errors.password}</p>
+      )}
 
-          {/* Password */}
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            margin="normal"
-            error={touched.password && Boolean(errors.password)}
-            helperText={touched.password && errors.password}
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            className="login-btn"
-          >
-            Log In
-          </Button>
-        </form>
-
-        <Typography variant="body2" className="signup-link">
-          Don’t have an account? <a href="/signup">Sign Up</a>
-        </Typography>
-      </Paper>
-    </div>
+      <button type="submit">Login</button>
+    </form>
   );
 }

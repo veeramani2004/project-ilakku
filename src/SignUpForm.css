@@ -58,9 +58,9 @@
   transition: border 0.2s ease;
 }
 
-.signup-form input:focus {
+/* .signup-form input:focus {
   border-color: #1976d2;
-}
+} */
 
 /* Error Message */
 .signup-form p {

@@ -1,6 +1,16 @@
 import { object, string, ref } from "yup";
+import { useFormik } from "formik";
+import {
+  TextField,
+  Button,
+  Avatar,
+  Typography,
+  Box,
+  Paper,
+} from "@mui/material";
 import "./SignUpForm.css";
 
+// ✅ Validation Schema
 const signupSchema = object({
   name: string()
     .required("Full name is required")
@@ -34,37 +44,54 @@ const signupSchema = object({
     .notRequired(),
 });
 
-import { useFormik } from "formik";
-
-import {
-  TextField,
-  Button,
-  Avatar,
-  Typography,
-  Box,
-  Paper,
-} from "@mui/material";
-
 export function SignUpForm() {
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useFormik({
-      initialValues: {
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        profilePicture: "",
-      },
-      validationSchema: signupSchema,
-      onSubmit: (user) => {
-        if (!user.profilePicture) {
-          user.profilePicture = "/images/default-avatar.png"; // fallback avatar
-        }
-        console.log("New User:", user);
-      },
-    });
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      profilePicture: "", // ✅ camelCase only
+    },
+    validationSchema: signupSchema,
+    onSubmit: async (user) => {
+      // fallback avatar
+      const payload = {
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        profile_picture: user.profilePicture || "/images/default-avatar.png", // ✅ mapped
+      };
 
+      try {
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error("Signup failed");
+
+        const data = await response.json();
+        console.log("✅ Signup success:", data);
+
+        resetForm();
+        alert("Account created successfully! 🎉");
+      } catch (err) {
+        console.error("❌ Signup error:", err.message);
+      }
+    },
+  });
   return (
     <div className="signup-container">
       <Paper elevation={3} className="signup-card">
@@ -151,7 +178,7 @@ export function SignUpForm() {
           <TextField
             fullWidth
             label="Profile Picture URL (optional)"
-            name="profilePicture"
+            name="profilePicture" // ✅ consistent
             value={values.profilePicture}
             onChange={handleChange}
             onBlur={handleBlur}
