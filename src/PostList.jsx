@@ -40,13 +40,39 @@ export function PostList() {
       console.error("Error editing post:", err);
     }
   };
+  const [user, setUser] = useState(null);
+  const username = localStorage.getItem("username");
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/users/user/${username}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Failed to fetch user");
+        const data = await res.json();
+        setUser(data);
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    }
+    if (username) fetchUser();
+  }, [username]);
+
+  if (!user) return <p>Loading...</p>;
   return (
     <div className="post-list-main-container">
-      <ProfileCard />
+      <ProfileCard user={user} />
 
       <div className="post-list-container">
         <CreatePost
+          user={user}
           onAddPost={(newPost) => setPostlist([newPost, ...postlist])}
         />
         {postlist.length > 0 ? (

@@ -2,7 +2,7 @@ import { useState } from "react";
 import ImageIcon from "@mui/icons-material/Image";
 import "./CreatePost.css";
 
-export function CreatePost({ onAddPost }) {
+export function CreatePost({ user, onAddPost }) {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
@@ -10,15 +10,15 @@ export function CreatePost({ onAddPost }) {
     if (!text.trim() && !image.trim()) return;
 
     const newPost = {
-      userName: "Guest User",
+      userName: user.name,
       userRole: "Community Member",
-      avatar: "https://pbs.twimg.com/media/Eklq-xfVgAA3ql8.jpg",
+      avatar: user.profilePicture || "/images/default-avatar.png",
       postText: text,
       postImage: image,
       postTime: new Date().toISOString(),
       commentSectionName: "Voices",
     };
-
+    console.log(newPost);
     try {
       const response = await fetch(
         "https://68959016039a1a2b288f7c62.mockapi.io/ilakku/",
@@ -49,7 +49,7 @@ export function CreatePost({ onAddPost }) {
       {/* Input Row */}
       <div className="create-post-header">
         <img
-          src="https://pbs.twimg.com/media/Eklq-xfVgAA3ql8.jpg"
+          src={user.profilePicture || "/images/default-avatar.png"}
           alt="avatar"
           className="avatar"
         />
@@ -63,7 +63,13 @@ export function CreatePost({ onAddPost }) {
 
       {/* Action Buttons */}
       <div className="create-post-actions">
-        <button onClick={() => setImage("https://via.placeholder.com/350x200")}>
+        <button
+          onClick={() =>
+            setImage(
+              "https://cloudinary-marketing-res.cloudinary.com/image/upload/w_1300/q_auto/f_auto/hiking_dog_mountain"
+            )
+          }
+        >
           <ImageIcon style={{ color: "blue" }} /> Photo
         </button>
       </div>

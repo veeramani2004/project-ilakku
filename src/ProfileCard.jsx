@@ -1,6 +1,5 @@
 import "./ProfileCard.css";
-
-export function ProfileCard() {
+export function ProfileCard({ user }) {
   return (
     <div className="profile-card">
       {/* Cover Image */}
@@ -9,19 +8,19 @@ export function ProfileCard() {
       {/* Profile Info */}
       <div className="profile-info">
         <img
-          src="https://pbs.twimg.com/media/Eklq-xfVgAA3ql8.jpg"
-          alt="profile"
+          src={user.profilePicture || "/images/default-avatar.png"}
+          alt={user.name}
           className="profile-avatar"
         />
-        <h3>Jyothika</h3>
-        <p className="role">Python developer</p>
-        <p className="location">Salem, Tamil Nadu</p>
+        <h3>{user.name}</h3>
+        <p className="role">comunity member</p>
+        <p className="location">chennai</p>
       </div>
 
       {/* Connections */}
       <div className="connections">
         <p>Followers</p>
-        <span>6</span>
+        <span>{user.followers || 0}</span>
       </div>
 
       {/* Links */}
