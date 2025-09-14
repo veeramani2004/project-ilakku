@@ -42,12 +42,12 @@ export function LoginForm() {
         }
 
         const data = await response.json();
-
+        localStorage.setItem("isLogin", "true");
         localStorage.setItem("token", data?.token);
         localStorage.setItem("role", data?.role);
         localStorage.setItem("username", data?.username);
 
-        navigate("/");
+        navigate("/post");
         resetForm();
       } catch (err) {
         console.error("❌ Error logging in:", err.message);

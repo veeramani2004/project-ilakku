@@ -2,6 +2,7 @@ import { PostCard } from "./PostCard";
 import { useState, useEffect } from "react";
 import { CreatePost } from "./CreatePost";
 import { ProfileCard } from "./ProfileCard";
+import "./PostList.css";
 
 export function PostList() {
   const [postlist, setPostlist] = useState([]);

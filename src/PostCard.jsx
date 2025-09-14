@@ -42,7 +42,12 @@ export function PostCard({ post, onDelete, onEdit }) {
     onEdit(post.id, { ...post, postText: editText, postImage: editImage });
     setIsEditing(false);
   };
+  const [isFollowing, setIsFollowing] = useState(false); // ✅ track follow state
 
+  const toggleFollow = () => {
+    setIsFollowing((prev) => !prev);
+    // 👉 later you can connect this to backend API (POST/DELETE follow)
+  };
   return (
     <div className="post-card">
       {/* Header */}
@@ -53,6 +58,12 @@ export function PostCard({ post, onDelete, onEdit }) {
           <p className="user-role">{post.userRole}</p>
           <p className="post-time">{relativeTime}</p>
         </div>
+        <button
+          onClick={toggleFollow}
+          className={`follow-btn ${isFollowing ? "following" : ""}`}
+        >
+          {isFollowing ? "✔ Following" : "Follow"}
+        </button>
         <LongMenu
           postId={post.id}
           onDelete={onDelete}
