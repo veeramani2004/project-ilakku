@@ -1,0 +1,168 @@
+/* ==== Modal Overlay ==== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ center instead of stretch */
+  z-index: 2000; /* higher than navbar */
+}
+
+/* ==== Centered Modal Content ==== */
+.modal-content {
+  background: #fff;
+  width: 85%; /* ✅ narrower */
+  max-width: 700px; /* ✅ limit size */
+  max-height: 90vh;
+  border-radius: 12px; /* ✅ rounded popup */
+  padding: 30px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  animation: fadeInUp 0.3s ease;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ==== Form Layout ==== */
+form {
+  max-width: 650px; /* ✅ a bit smaller inside */
+  margin: 0 auto;
+}
+
+/* Inputs */
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.2s;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #0a66c2;
+  outline: none;
+}
+
+form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Section Titles */
+h3 {
+  font-size: 20px;
+  margin: 25px 0 12px;
+  color: #0a66c2;
+  font-weight: 600;
+  border-left: 4px solid #0a66c2;
+  padding-left: 10px;
+}
+
+/* Education & Experience Blocks */
+.edu-block,
+.exp-block {
+  background: #f9fafb;
+  border: 1px solid #eee;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+}
+
+.edu-block .summary,
+.exp-block .summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary button {
+  background: transparent;
+  border: none;
+  color: #0a66c2;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.summary button:hover {
+  text-decoration: underline;
+}
+
+/* Action Buttons */
+.add-btn {
+  background: #eaf3fc;
+  border: 1px solid #0a66c2;
+  color: #0a66c2;
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background: #d8e9f8;
+}
+
+.delete-btn {
+  background: #fff0f0;
+  border: 1px solid #e63946;
+  color: #e63946;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background: #ffe5e5;
+}
+
+/* Save & Cancel */
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+}
+
+.form-actions button[type="submit"] {
+  background: #0a66c2;
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+  background: #004182;
+}
+
+.cancel-btn {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e5e5e5;
+}

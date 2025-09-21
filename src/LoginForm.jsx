@@ -42,7 +42,9 @@ export function LoginForm() {
         }
 
         const data = await response.json();
+        localStorage.setItem("userId", data?.id);
         localStorage.setItem("isLogin", "true");
+        window.dispatchEvent(new Event("storage"));
         localStorage.setItem("token", data?.token);
         localStorage.setItem("role", data?.role);
         localStorage.setItem("username", data?.username);

@@ -1,0 +1,81 @@
+.profile-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  transition: 0.2s ease;
+}
+
+.profile-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.cover {
+  height: 80px;
+  background-size: cover;
+  background-position: center;
+}
+
+.profile-info {
+  padding: 20px 15px 10px;
+}
+
+.profile-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-top: -45px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.profile-name {
+  margin: 10px 0 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #222;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.location {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 3px;
+}
+
+.bio {
+  font-size: 0.85rem;
+  color: #444;
+  margin-top: 8px;
+  line-height: 1.3;
+}
+
+/* Stats Section */
+.profile-stats {
+  border-top: 1px solid #eee;
+  padding: 12px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #333;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.stat-item:hover {
+  color: #1976d2;
+}

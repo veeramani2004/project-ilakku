@@ -1,85 +1,171 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  IconButton,
+  Avatar,
+  Box,
+  Typography,
+} from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
+import AddIcon from "@mui/icons-material/Add";
 import "./CreatePost.css";
 
 export function CreatePost({ user, onAddPost }) {
+  const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
+  const token = localStorage.getItem("token");
+
+  const handleOpen = () => setOpen(true);
+
+  const resetForm = () => {
+    setText("");
+    setImage("");
+  };
+
+  // Robust: clear form whenever dialog becomes closed (covers Cancel, backdrop click, Esc)
+  useEffect(() => {
+    if (!open) resetForm();
+  }, [open]);
+
+  const handleClose = () => {
+    // close then reset (useEffect also covers this)
+    setOpen(false);
+    // optional immediate reset if you want
+    // resetForm();
+  };
 
   const handleSubmit = async () => {
     if (!text.trim() && !image.trim()) return;
 
-    const newPost = {
-      userName: user.name,
-      userRole: "Community Member",
-      avatar: user.profilePicture || "/images/default-avatar.png",
-      postText: text,
-      postImage: image,
-      postTime: new Date().toISOString(),
-      commentSectionName: "Voices",
+    const payload = {
+      user_id: user?.id,
+      post_text: text,
+      post_image: image || null,
     };
-    console.log(newPost);
-    try {
-      const response = await fetch(
-        "https://68959016039a1a2b288f7c62.mockapi.io/ilakku/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newPost),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to save post");
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : undefined,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(err || "Failed to save post");
       }
 
-      const savedPost = await response.json();
-
-      onAddPost(savedPost);
+      const savedPost = await res.json();
+      if (onAddPost) onAddPost(savedPost);
+      handleClose();
     } catch (err) {
-      console.error("Failed to save post:", err);
-    } finally {
-      setText("");
-      setImage("");
+      console.error("❌ Failed to save post:", err);
+      // you can show UI error message here if you want
     }
   };
 
+  // small helper to insert a sample image quickly
+  const insertSampleImage = () =>
+    setImage(
+      "https://picsum.photos/800/450?random=" + Math.floor(Math.random() * 1000)
+    );
+
   return (
-    <div className="create-post">
-      {/* Input Row */}
-      <div className="create-post-header">
-        <img
-          src={user.profilePicture || "/images/default-avatar.png"}
-          alt="avatar"
-          className="avatar"
+    <>
+      {/* placeholder card (click to open) */}
+      <div
+        className="create-post-card"
+        onClick={handleOpen}
+        role="button"
+        tabIndex={0}
+      >
+        <Avatar
+          src={user?.profilePicture || user?.profile_picture || ""}
+          alt={user?.name || "User"}
+          className="create-post-avatar"
         />
-        <input
-          type="text"
-          placeholder="Start a post"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-      </div>
-
-      {/* Action Buttons */}
-      <div className="create-post-actions">
-        <button
-          onClick={() =>
-            setImage(
-              "https://cloudinary-marketing-res.cloudinary.com/image/upload/w_1300/q_auto/f_auto/hiking_dog_mountain"
-            )
-          }
+        <div className="create-post-placeholder">
+          <Typography variant="body1" color="textSecondary">
+            Share your thoughts
+          </Typography>
+        </div>
+        <IconButton
+          size="small"
+          className="create-post-addicon"
+          aria-label="create"
         >
-          <ImageIcon style={{ color: "blue" }} /> Photo
-        </button>
+          <AddIcon />
+        </IconButton>
       </div>
 
-      {/* Post Button */}
-      <div className="create-post-footer">
-        <button onClick={handleSubmit} className="post-btn">
-          Post
-        </button>
-      </div>
-    </div>
+      {/* Dialog */}
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle>Create post</DialogTitle>
+
+        <DialogContent dividers>
+          <Box display="flex" gap={2} alignItems="flex-start" mb={1}>
+            <Avatar
+              src={user?.profilePicture || user?.profile_picture || ""}
+              alt={user?.name || "User"}
+            />
+            <Box flex={1}>
+              <TextField
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="What's on your mind?"
+                multiline
+                minRows={3}
+                fullWidth
+                variant="outlined"
+              />
+              <TextField
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                placeholder="Image URL (optional)"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+              />
+              {image && (
+                <Box mt={1}>
+                  <img
+                    src={image}
+                    alt="preview"
+                    className="create-post-image-preview"
+                  />
+                </Box>
+              )}
+            </Box>
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <IconButton onClick={insertSampleImage} title="Insert sample image">
+            <ImageIcon />
+          </IconButton>
+
+          <Box sx={{ flex: 1 }} />
+
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+            disabled={!text.trim() && !image.trim()}
+          >
+            Post
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

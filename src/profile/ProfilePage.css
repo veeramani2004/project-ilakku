@@ -1,0 +1,197 @@
+.profile-page {
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: "Inter", Arial, sans-serif;
+  color: #222;
+}
+
+/* ---------- Header ---------- */
+.profile-header {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.poster {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-color: #f0f0f0;
+}
+
+.default-poster {
+  background-image: url("https://t3.ftcdn.net/jpg/05/80/34/44/360_F_580344460_KaOyXbQCV792gQ9nf2lg5ZHPE4r0ylpO.jpg");
+}
+
+.header-body {
+  padding: 16px;
+  position: relative;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-top: -60px;
+  object-fit: cover;
+}
+
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 8px;
+}
+
+.header-info h2 {
+  margin: 0;
+}
+
+.bio {
+  color: #444;
+  margin: 4px 0;
+}
+
+.location {
+  font-size: 14px;
+  color: #666;
+}
+
+.update-btn {
+  background: #0073b1;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.update-btn:hover {
+  background: #005b8c;
+}
+
+.follow-row {
+  margin-top: 12px;
+}
+
+.follow-btn {
+  background: #fff;
+  border: 1px solid #0073b1;
+  color: #0073b1;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.follow-btn:hover {
+  background: #f0f8ff;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ---------- Card Content ---------- */
+.card p {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ---------- Experience & Education Items ---------- */
+.exp-item,
+.edu-item {
+  padding: 14px 16px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background: #fafafa;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.exp-item:hover,
+.edu-item:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.exp-item h4,
+.edu-item h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.company {
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
+}
+
+.date {
+  font-size: 13px;
+  color: #777;
+  margin: 2px 0;
+}
+
+.desc {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* ---------- Buttons ---------- */
+.add-btn,
+.exp-item button,
+.edu-item button {
+  background: #0073b1;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover,
+.exp-item button:hover,
+.edu-item button:hover {
+  background: #005b8c;
+}
