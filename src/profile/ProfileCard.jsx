@@ -180,17 +180,17 @@
 //     </div>
 //   );
 // }
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GroupIcon from "@mui/icons-material/Group";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import VerifiedIcon from "@mui/icons-material/Verified"; // ✅ add verified icon
 import "./ProfileCard.css";
 
 export function ProfileCard() {
   const [updatedUser, setUpdatedUser] = useState(null);
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
+  const [followers, setFollowers] = useState();
+  const [following, setFollowing] = useState();
   const [savedCount, setSavedCount] = useState(0);
   const [message, setMessage] = useState("");
 
@@ -198,7 +198,6 @@ export function ProfileCard() {
 
   const username = localStorage.getItem("username");
   const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
 
   // ✅ Fetch user profile
   useEffect(() => {
@@ -289,9 +288,16 @@ export function ProfileCard() {
           className="profile-avatar"
           onClick={goToProfilePage}
         />
+
         <h3 className="profile-name" onClick={goToProfilePage}>
           {updatedUser.name}
+          {updatedUser.role === "MENTOR" && (
+            <VerifiedIcon
+              sx={{ fontSize: 20, color: "#1df24bc4", marginLeft: "5px" }}
+            />
+          )}
         </h3>
+
         <p className="role">{updatedUser.positions || ""}</p>
         <p className="bio">{updatedUser.bio || "No bio added yet."}</p>
         <p className="location">

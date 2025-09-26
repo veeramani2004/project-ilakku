@@ -24,9 +24,9 @@
   width: 50%;
   padding: 12px;
   font-size: 16px;
-  border: 1px solid #666;
+  border: 1px solid #0a66c2; /* LinkedIn blue */
   border-radius: 25px;
-  background: hsl(242.73deg 51.97% 50.2%);
+  background: #0a66c2; /* LinkedIn blue */
   cursor: pointer;
   margin-bottom: 20px;
   font-weight: 600;
@@ -35,7 +35,7 @@
 }
 
 .email-btn:hover {
-  background: hsl(243, 55%, 54%);
+  background: #004182; /* darker LinkedIn blue */
 }
 
 .policy-text {
@@ -46,7 +46,7 @@
 }
 
 .policy-text a {
-  color: hsl(243, 55%, 54%);
+  color: #0a66c2; /* LinkedIn blue */
   text-decoration: none;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .join-text a {
-  color: hsl(243, 55%, 54%);
+  color: #0a66c2; /* LinkedIn blue */
   font-weight: 600;
   text-decoration: none;
 }

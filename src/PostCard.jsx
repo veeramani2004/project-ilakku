@@ -1514,7 +1514,6 @@
 //     </Card>
 //   );
 // }
-
 import { useEffect, useState } from "react";
 import {
   Avatar,
@@ -1541,6 +1540,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom"; // ✅ for navigation
 import "./PostCard.css";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ✅ Convert UTC -> IST (+05:30)
 const toIST = (dateString) => {
@@ -1808,7 +1808,12 @@ export function PostCard({ post, onDelete, onEdit }) {
           onClick={() => navigate(`/profile/${post?.author?.username}`)} // ✅ navigate
           style={{ cursor: "pointer" }}
         >
-          <h4 className="user-name">{post?.author?.name || "Unknown"}</h4>
+          <h4 className="user-name">
+            {post?.author?.name || "Unknown"}
+            {post?.author?.role?.toUpperCase() === "MENTOR" && (
+              <VerifiedIcon sx={{ fontSize: 18, color: "green", ml: 0.5 }} />
+            )}
+          </h4>
           <p className="user-bio">{post?.author?.bio || "bio not added"}</p>
           <p className="post-time">{relativeTime}</p>
         </div>

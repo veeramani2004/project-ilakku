@@ -1465,6 +1465,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import VerifiedIcon from "@mui/icons-material/Verified"; // ✅ added verified icon
 
 import "./ProfilePage.css";
 import ProfileUpdateForm from "./ProfileUpdateForm";
@@ -1476,8 +1477,8 @@ export default function ProfilePage() {
   const { username: paramUsername } = useParams(); // ✅ get username from URL
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
+  const [followers, setFollowers] = useState(25);
+  const [following, setFollowing] = useState(15);
   const [isFollowing, setIsFollowing] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -1728,8 +1729,17 @@ export default function ProfilePage() {
               />
 
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h5" fontWeight="bold">
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                >
                   {user.name}
+                  {user.role === "MENTOR" && (
+                    <VerifiedIcon sx={{ fontSize: 22, color: "green" }} />
+                  )}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -1789,6 +1799,8 @@ export default function ProfilePage() {
       </div>
 
       {/* 🔹 Experience Section */}
+      {/* ... (unchanged code below) ... */}
+
       <div className="card">
         <div className="card-header">
           <h3>Experience</h3>
@@ -1829,7 +1841,7 @@ export default function ProfilePage() {
                 </Box>
 
                 {currentUserId === String(user.id) &&
-                  hoveredExpId === exp.id && ( // ✅ only show on hover
+                  hoveredExpId === exp.id && (
                     <Box>
                       <Tooltip title="Edit">
                         <IconButton
@@ -1899,7 +1911,7 @@ export default function ProfilePage() {
                 </Box>
 
                 {currentUserId === String(user.id) &&
-                  hoveredEduId === edu.id && ( // ✅ only show on hover
+                  hoveredEduId === edu.id && (
                     <Box>
                       <Tooltip title="Edit">
                         <IconButton

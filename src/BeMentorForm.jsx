@@ -55,12 +55,17 @@ export default function BeMentorForm() {
       setErrors({});
       const userId = localStorage.getItem("userId");
 
-      const res = await fetch("http://localhost:5000/api/mentor-applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, user_id: userId }),
-      });
-
+      const res = await fetch(
+        "http://localhost:5000/api/mentor-applications/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }, // ✅ send JWT
+          body: JSON.stringify(form),
+        }
+      );
       if (!res.ok) throw new Error("Failed to submit application");
 
       alert("✅ Application submitted successfully!");
